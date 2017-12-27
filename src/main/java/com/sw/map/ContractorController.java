@@ -1,10 +1,7 @@
 package com.sw.map;
 
 import java.net.URI;
-import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
-import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +16,7 @@ import com.sw.map.services.Contractor;
 import com.sw.map.services.Location;
 import com.sw.map.services.NoContractorsFound;
 import com.sw.map.services.Service;
-//test
+//test 1
 @RestController
 @RequestMapping("services/{serviceId}/contractors/{contractorId}")
 public class ContractorController {

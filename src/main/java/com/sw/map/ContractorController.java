@@ -19,7 +19,7 @@ import com.sw.map.services.Contractor;
 import com.sw.map.services.Location;
 import com.sw.map.services.NoContractorsFound;
 import com.sw.map.services.Service;
-
+//test
 @RestController
 @RequestMapping("services/{serviceId}/contractors/{contractorId}")
 public class ContractorController {

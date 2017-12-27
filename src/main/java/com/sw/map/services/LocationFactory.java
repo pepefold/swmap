@@ -5,6 +5,9 @@ public class LocationFactory {
 	public static String CHICAGO_EXECUTIVE_AIRPORT = "Chicago Executive Airport";
 	public static String RIVERS_CASINO = "Rivers Casino";
 	
+	
+	
+	
 	public static Location getLocation(Service service) {
 		String name = service.getName();
 		

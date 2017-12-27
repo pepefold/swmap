@@ -17,7 +17,14 @@ import com.sw.map.services.Location;
 import com.sw.map.services.Service;
 import com.sw.map.services.SwServiceExists;
 import com.sw.map.services.SwServiceNotFoundException;
-
+/**dele
+ * Handle following actions for the service
+ * GET - get the information about the service
+ * POST - add the service
+ * DELETE - delete the service
+ * @author Dali
+ *
+ */
 @RestController
 @RequestMapping("services/{userId}")
 public class ServiceController {
@@ -67,7 +74,11 @@ public class ServiceController {
 		
 		return ResponseEntity.created(location).build();
 	}
-	
+	/**
+	 * Remove service
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.DELETE)
 	ResponseEntity<?> removeService(@PathVariable String userId){
 		
@@ -82,19 +93,15 @@ public class ServiceController {
 		this.serviceRepository.delete(service);
 		return ResponseEntity.ok().build();
 	}
-	
+	/**
+	 * Get service by its id
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping(method=RequestMethod.GET)
 	Service getServiceById(@PathVariable String userId) {
 		//TODO: validate id
 		return this.serviceRepository.findOne(Long.parseLong(userId));
-	}
-	
-	 /**
-	  * Validate the user id	
-	  * @param userId
-	  */
-	private void validateService(String userId) {
-		this.serviceRepository.findByName(userId).orElseThrow( () ->
-			new SwServiceNotFoundException(userId));
 	}
 }

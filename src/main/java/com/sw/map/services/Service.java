@@ -13,6 +13,8 @@ public class Service {
 	
 	@OneToMany(mappedBy= "service")
 	private Set<Location> locations = new HashSet<Location>();
+	@OneToMany(mappedBy= "service")
+	private Set<Contractor> contractors = new HashSet<Contractor>();
 	
 	@GeneratedValue
 	@Id
@@ -59,4 +61,19 @@ public class Service {
 	public void addLocation(Location location) {
 		this.locations.add(location);
 	}
+	/**
+	 * Add a contractor
+	 * 
+	 * @param contractor the contractor
+	 */
+	public void addContractor(Contractor contractor) {
+		this.contractors.add(contractor);
+	}
+
+	public Set<Contractor> getContractors() {
+		return contractors;
+	}
+	
+	
+	
 }

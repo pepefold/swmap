@@ -8,4 +8,5 @@ import com.sw.map.services.Service;
 
 public interface ServiceRepository extends JpaRepository<Service, Long> {
 	Optional<Service> findByName(String name);
+	Optional<Service> findById(Long id);
 }

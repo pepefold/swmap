@@ -19,5 +19,5 @@ public interface LocationRepository extends JpaRepository<Location, Long>
 	 * @param name the service name
 	 * @return
 	 */
-	Collection<Location> findByServiceName(String name);
+	Collection<Location> findByContractorName(String name);
 }

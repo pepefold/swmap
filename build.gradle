@@ -28,6 +28,7 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-devtools")
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	runtime('mysql:mysql-connector-java')
+	//runtime('mysql:mysql-connector-java')
+	compile('mysql:mysql-connector-java:6.0.3')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

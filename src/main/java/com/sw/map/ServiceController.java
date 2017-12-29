@@ -2,6 +2,7 @@ package com.sw.map;
 
 import java.net.URI;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.sw.map.services.Contractor;
 import com.sw.map.services.Location;
 import com.sw.map.services.Service;
 import com.sw.map.services.SwServiceExists;
-import com.sw.map.services.SwServiceNotFoundException;
 /**dele
  * Handle following actions for the service
  * GET - get the information about the service
@@ -31,11 +32,13 @@ public class ServiceController {
 	
 	private ServiceRepository serviceRepository;
 	private LocationRepository locationRepository;
+	private ContractorRepository contractorRepository;
 	
 	@Autowired
-	ServiceController(ServiceRepository serviceRepository, LocationRepository locationRepository) {
+	ServiceController(ServiceRepository serviceRepository, ContractorRepository contractorRepo, LocationRepository locationRepository) {
 		this.serviceRepository = serviceRepository;
 		this.locationRepository = locationRepository;
+		this.contractorRepository = contractorRepo;
 	}
 	/**
 	 * Find all services
@@ -62,11 +65,11 @@ public class ServiceController {
 		Service service = new Service(input.getName());
 		this.serviceRepository.save(service);
 		
-		Set<Location> locations = input.getLocations();
-		locations.stream().forEach(l->{
-			Location location = new Location(service, l.getLatitude(), l.getLongitude());
-			this.locationRepository.save(location);
-		});
+//		Set<Location> locations = input.getLocations();
+//		locations.stream().forEach(l->{
+//			Location location = new Location(service, l.getLatitude(), l.getLongitude());
+//			this.locationRepository.save(location);
+//		});
 		
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
@@ -82,13 +85,23 @@ public class ServiceController {
 	@RequestMapping(method = RequestMethod.DELETE)
 	ResponseEntity<?> removeService(@PathVariable String userId){
 		
+		ServiceRepositoryUtils.validateService(this.serviceRepository, userId);
 		// TODO: validate
 		long id = Long.parseLong(userId);
+
 		Service service = this.serviceRepository.findOne(id);
-		Set<Location> locations = service.getLocations();
-		locations.forEach(l->{
-			this.locationRepository.delete(l);
+		
+		Set<Contractor> contractors = service.getContractors();
+		contractors.forEach(c ->{
+			
+			Set<Location> locations = c.getLocations();
+			locations.forEach(l->{
+				this.locationRepository.delete(l);
+			});
+			
+			this.contractorRepository.delete(c);
 		});
+		
 		
 		this.serviceRepository.delete(service);
 		return ResponseEntity.ok().build();

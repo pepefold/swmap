@@ -2,6 +2,7 @@ package com.sw.map;
 
 import java.net.URI;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.sw.map.services.Contractor;
 import com.sw.map.services.Location;
 import com.sw.map.services.NoContractorsFound;
+import com.sw.map.services.NoLocationFoundException;
 import com.sw.map.services.Service;
 //test 1
 @RestController
@@ -23,6 +25,7 @@ public class ContractorController {
 	
 	private ServiceRepository serviceRepository;
 	private ContractorRepository contractorRepository;
+	
 	
 	@Autowired
 	public ContractorController(ServiceRepository serviceRepository, ContractorRepository contractorRepository) {
@@ -41,22 +44,32 @@ public class ContractorController {
 	ResponseEntity<?> addContractor(
 			@RequestBody Contractor inContractor){
 		
-		String sId = String.valueOf(inContractor.getService().getId());
-		//check wether service is correct
+		String sId = String.valueOf(inContractor.getId());
+		
+		//check whether service is correct
 		ServiceRepositoryUtils.validateService(this.serviceRepository,
 				sId);
 				
 		
-		Service service = this.serviceRepository.findOne(inContractor.getService().getId()); 
+		
+		//TODO: to optimize assign the last added
+		Optional<Location> locOpt = inContractor.getLocations().stream().findFirst();
+		
+		locOpt.orElseThrow(() -> new NoLocationFoundException("No location for contractor: " + sId));
+			
+		Service service = this.serviceRepository.findOne(inContractor.getService().getId());
 		Contractor c = new Contractor(service, inContractor.getName());
+		c.setLocation(locOpt.get());
+		
 		this.contractorRepository.save(c);
 		
 		
-		URI location = ServletUriComponentsBuilder
+		URI locationURI = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(service.getId()).toUri();
 		
-		return ResponseEntity.created(location).build();
+		return ResponseEntity.created(locationURI).build();
+
 	}
 	/**
 	 * Get the contractor of service

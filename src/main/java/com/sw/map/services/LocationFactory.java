@@ -8,16 +8,14 @@ public class LocationFactory {
 	
 	
 	
-	public static Location getLocation(Service service) {
-		String name = service.getName();
-		
-		if (name.equals(AHML)) {
-			return new Location(service, 42.087641f,-87.9857143f);
-		}else if (name.equals(CHICAGO_EXECUTIVE_AIRPORT)) {
-			return new Location(service, 42.114501f,-87.9339974f);
+	public static Location getLocation(String serviceName) {
+		if (serviceName.equals(AHML)) {
+			return new Location(42.087641f,-87.9857143f);
+		}else if (serviceName.equals(CHICAGO_EXECUTIVE_AIRPORT)) {
+			return new Location(42.114501f,-87.9339974f);
 		}else {
 			// RIVERS CASINO
-			return new Location(service, 42.0231316f,-88.0025056f);
+			return new Location(42.0231316f,-88.0025056f);
 		}
 		
 	}

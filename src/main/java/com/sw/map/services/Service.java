@@ -8,11 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+/**
+ * Service can have multiple contractors under it. Additionally,
+ * @author Dali
+ *
+ */
 @Entity
 public class Service {
-	
-	@OneToMany(mappedBy= "service")
-	private Set<Location> locations = new HashSet<Location>();
+	/**
+	 * All contractors under this service
+	 */
 	@OneToMany(mappedBy= "service")
 	private Set<Contractor> contractors = new HashSet<Contractor>();
 	
@@ -49,18 +54,7 @@ public class Service {
 	private void setName(String name) {
 		this.name = name;
 	}
-	/**
-	 * Get location of the service
-	 * 
-	 * @return the location
-	 */
-	public Set<Location> getLocations() {
-		return locations;
-	}
-	
-	public void addLocation(Location location) {
-		this.locations.add(location);
-	}
+
 	/**
 	 * Add a contractor
 	 * 
@@ -71,7 +65,7 @@ public class Service {
 	}
 
 	public Set<Contractor> getContractors() {
-		return contractors;
+		return this.contractors;
 	}
 	
 	

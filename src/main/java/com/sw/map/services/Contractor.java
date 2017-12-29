@@ -6,10 +6,14 @@ package com.sw.map.services;
  *
  */
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,6 +22,9 @@ public class Contractor {
 	@ManyToOne
 	@JsonIgnore
 	private Service service;
+	
+	@OneToMany (mappedBy = "contractor")
+	private Set<Location> locations = new HashSet<Location>();
 	
 	private String name;
 	
@@ -28,13 +35,22 @@ public class Contractor {
 	public Contractor() {
 		super();
 	}
-	
-	
 
 	public Contractor(Service service, String name) {
 		super();
 		this.service = service;
 		this.name = name;
+	}
+
+
+	public Set<Location> getLocations() {
+		return locations;
+	}
+
+
+
+	public void setLocation(Location location) {
+		this.locations.add(location);
 	}
 
 

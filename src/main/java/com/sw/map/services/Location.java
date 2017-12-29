@@ -11,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Location {
 	@JsonIgnore
 	@ManyToOne
-	private Service service;
+	private Contractor contractor;
+	
+	
 	
 	@Id
     @GeneratedValue
@@ -38,9 +40,8 @@ public class Location {
 
 
 
-	public Location(Service service, float latitude, float longitude) {
+	public Location(float latitude, float longitude) {
 		super();
-		this.service = service;
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
@@ -62,8 +63,12 @@ public class Location {
 	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
-	
-	
-	
-	
+
+	public Contractor getContractor() {
+		return contractor;
+	}
+
+	public void setContractor(Contractor contractor) {
+		this.contractor = contractor;
+	}
 }

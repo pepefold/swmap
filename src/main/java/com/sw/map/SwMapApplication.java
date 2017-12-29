@@ -1,6 +1,7 @@
 package com.sw.map;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
@@ -8,7 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.mysql.fabric.xmlrpc.base.Array;
 import com.sw.map.services.Contractor;
 import com.sw.map.services.Location;
 import com.sw.map.services.LocationFactory;
@@ -25,21 +25,28 @@ public class SwMapApplication {
 	CommandLineRunner init(ServiceRepository serviceRepository, 
 			LocationRepository locationRepository, ContractorRepository contractorRepository) {
 		
+		List<String> list = Arrays.asList(LocationFactory.AHML, LocationFactory.CHICAGO_EXECUTIVE_AIRPORT,
+				LocationFactory.RIVERS_CASINO);
+		
 		return (evt) -> {
-			List<String> list = Arrays.asList(LocationFactory.AHML, LocationFactory.CHICAGO_EXECUTIVE_AIRPORT,
-					LocationFactory.RIVERS_CASINO);
 			list.stream().forEach((s) -> {
 				Service service = new Service(s);
 				
 				// adding main office locations
-				Location location = LocationFactory.getLocation(service);
+				
 				serviceRepository.save(service);
-				locationRepository.save(location);
 				
 				List<String> contractorList = Arrays.asList("Joe_" + s, "Mary_" + s ,"Joshua_" + s);
 				contractorList.stream().forEach( (contractorName)->{
+					Location location = LocationFactory.getLocation(service.getName());
 					Contractor c = new Contractor(service, contractorName);
+					
+					// associate location and contractor
+					location.setContractor(c);
+					c.setLocation(location);
+					
 					contractorRepository.save(c);
+					locationRepository.save(location);
 				});
 			
 				

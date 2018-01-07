@@ -1,4 +1,4 @@
-package com.sw.map;
+package com.sw.map.contractor;
 
 import java.net.URI;
 import java.util.Optional;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.sw.map.services.Contractor;
-import com.sw.map.services.Location;
-import com.sw.map.services.NoContractorsFound;
-import com.sw.map.services.NoLocationFoundException;
-import com.sw.map.services.Service;
+import com.sw.map.location.Location;
+import com.sw.map.service.NoLocationFoundException;
+import com.sw.map.service.Service;
+import com.sw.map.service.ServiceRepository;
+import com.sw.map.service.ServiceRepositoryUtils;
 //test 1
 @RestController
-@RequestMapping("services/{serviceId}/contractors/{contractorId}")
+@RequestMapping("/contractors/{contractorId}")
 public class ContractorController {
 	
 	private ServiceRepository serviceRepository;
@@ -33,6 +33,7 @@ public class ContractorController {
 		this.serviceRepository = serviceRepository;
 		this.contractorRepository = contractorRepository;
 	}
+
 	/**
 	 * Add a contractor to the service
 	 * 
@@ -46,9 +47,10 @@ public class ContractorController {
 		
 		String sId = String.valueOf(inContractor.getId());
 		
-		//check whether service is correct
-		ServiceRepositoryUtils.validateService(this.serviceRepository,
-				sId);
+		//TODO: add validation
+//		//check whether service is correct
+//		ServiceRepositoryUtils.validateServiceByName(this.serviceRepository,
+//				sId);
 				
 		
 		
@@ -79,6 +81,7 @@ public class ContractorController {
 	 * 
 	 * @return the contractor
 	 */
+	//TODO: change validation to return 404 if invalid id is passed
 	@RequestMapping (method=RequestMethod.GET)
 	Contractor getContractor(@PathVariable String serviceId, @PathVariable String contractorId) {
 	
@@ -90,5 +93,7 @@ public class ContractorController {
 						contractorId));
 		return findByServiceAndId.get();
 	}
+	
+	
 		
 }

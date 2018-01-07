@@ -8,13 +8,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+//import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.context.annotation.ComponentScan;
 
-import com.sw.map.services.Contractor;
-import com.sw.map.services.Location;
-import com.sw.map.services.LocationFactory;
-import com.sw.map.services.Service;
+import com.sw.map.contractor.Contractor;
+import com.sw.map.contractor.ContractorRepository;
+import com.sw.map.location.Location;
+import com.sw.map.location.LocationFactory;
+import com.sw.map.location.LocationRepository;
+import com.sw.map.service.Service;
+import com.sw.map.service.ServiceRepository;
 
+//@EnableResourceServer
 @SpringBootApplication
+@ComponentScan(basePackages="com.sw.map.contractor,com.sw.map.service, com.sw.map.location, com.sw.map.security")
 public class SwMapApplication {
 
 	public static void main(String[] args) {

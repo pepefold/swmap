@@ -1,4 +1,4 @@
-package com.sw.map.services;
+package com.sw.map.service;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+
+import com.sw.map.contractor.Contractor;
+
 
 /**
  * Service can have multiple contractors under it. Additionally,

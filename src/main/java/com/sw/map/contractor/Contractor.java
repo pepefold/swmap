@@ -1,4 +1,4 @@
-package com.sw.map.services;
+package com.sw.map.contractor;
 /**
  * The unit for the service
  * For example, service ABCD Painting may have 3 painters. That is services/1/contractors/1 will be the end point
@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sw.map.location.Location;
+import com.sw.map.service.Service;
 
 @Entity
 public class Contractor {

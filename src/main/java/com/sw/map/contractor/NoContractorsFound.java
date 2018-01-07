@@ -1,4 +1,4 @@
-package com.sw.map.services;
+package com.sw.map.contractor;
 
 public class NoContractorsFound extends RuntimeException{
 

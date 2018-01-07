@@ -1,4 +1,4 @@
-package com.sw.map.services;
+package com.sw.map.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

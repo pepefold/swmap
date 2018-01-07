@@ -1,4 +1,6 @@
-package com.sw.map.services;
+package com.sw.map.location;
+
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sw.map.contractor.Contractor;
 
 @Entity
 public class Location {
@@ -13,20 +16,31 @@ public class Location {
 	@ManyToOne
 	private Contractor contractor;
 	
-	
-	
 	@Id
     @GeneratedValue
     private Long id;
 	
 	private float latitude;
 	private float longitude;
-
+	private long time;
+	
 	public Location() {
 		super();
 	}
 	
 	
+
+	public long getTime() {
+		return time;
+	}
+
+
+
+	public void setTime(long time) {
+		this.time = time;
+	}
+
+
 
 	public Long getId() {
 		return id;

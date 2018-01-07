@@ -1,10 +1,8 @@
-package com.sw.map;
+package com.sw.map.location;
 
 import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.sw.map.services.Location;
 
 /**
  * 

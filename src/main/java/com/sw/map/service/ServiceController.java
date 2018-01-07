@@ -1,12 +1,16 @@
-package com.sw.map;
+package com.sw.map.service;
 
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.sw.map.services.Contractor;
-import com.sw.map.services.Location;
-import com.sw.map.services.Service;
-import com.sw.map.services.SwServiceExists;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sw.map.contractor.Contractor;
+import com.sw.map.contractor.ContractorRepository;
+import com.sw.map.location.Location;
+import com.sw.map.location.LocationRepository;
 /**dele
  * Handle following actions for the service
  * GET - get the information about the service
@@ -35,19 +40,29 @@ public class ServiceController {
 	private ContractorRepository contractorRepository;
 	
 	@Autowired
+	private ObjectMapper mapper;
+	
+	@Autowired
 	ServiceController(ServiceRepository serviceRepository, ContractorRepository contractorRepo, LocationRepository locationRepository) {
 		this.serviceRepository = serviceRepository;
 		this.locationRepository = locationRepository;
 		this.contractorRepository = contractorRepo;
 	}
-	/**
-	 * Find all services
-	 * 
-	 * @return the collection of all services
-	 */
-	Collection<Service> getAll(){
-		return this.serviceRepository.findAll();
+	@RequestMapping(method=RequestMethod.PATCH)
+	ResponseEntity<?> update(@PathVariable String userId, @RequestBody Map<String, String> fields){
+		Service service = ServiceRepositoryUtils.getServiceById(this.serviceRepository, userId);
+		Service serviceToBe = this.mapper.convertValue(fields, Service.class);
+//		service.p
+	    this.serviceRepository.save(service);
+	    
+		return ResponseEntity.ok().build();
 	}
+	
+	 public void patch(String userId, Service toBePatched) {
+		 Service service = ServiceRepositoryUtils.getServiceById(this.serviceRepository, userId);
+//		 beanUtils.copyProperties(fromDb, toBePatched);
+//         updateManager(fromDb);
+     }   
 	/**
 	 * Add a service with specified name
 	 * 
@@ -62,14 +77,12 @@ public class ServiceController {
 			throw new SwServiceExists(input.getName());
 			});
 		
+		if (input.getName() == null) {
+			return ResponseEntity.badRequest().body("Service name is not specified 2");
+		}
+		
 		Service service = new Service(input.getName());
 		this.serviceRepository.save(service);
-		
-//		Set<Location> locations = input.getLocations();
-//		locations.stream().forEach(l->{
-//			Location location = new Location(service, l.getLatitude(), l.getLongitude());
-//			this.locationRepository.save(location);
-//		});
 		
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
@@ -85,11 +98,10 @@ public class ServiceController {
 	@RequestMapping(method = RequestMethod.DELETE)
 	ResponseEntity<?> removeService(@PathVariable String userId){
 		
-		ServiceRepositoryUtils.validateService(this.serviceRepository, userId);
+		ServiceRepositoryUtils.validateServiceId(userId);
 		// TODO: validate
-		long id = Long.parseLong(userId);
 
-		Service service = this.serviceRepository.findOne(id);
+		Service service = getServiceById(userId);
 		
 		Set<Contractor> contractors = service.getContractors();
 		contractors.forEach(c ->{
@@ -114,7 +126,6 @@ public class ServiceController {
 	 */
 	@RequestMapping(method=RequestMethod.GET)
 	Service getServiceById(@PathVariable String userId) {
-		//TODO: validate id
-		return this.serviceRepository.findOne(Long.parseLong(userId));
+		return ServiceRepositoryUtils.getServiceById(this.serviceRepository, userId);
 	}
 }

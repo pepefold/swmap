@@ -1,4 +1,4 @@
-package com.sw.map.services;
+package com.sw.map.service;
 
 public class SwServiceExists extends RuntimeException {
 

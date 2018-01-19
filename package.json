@@ -1,0 +1,38 @@
+{
+  "scripts": {
+    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
+    "start": "http-server",
+    "webpack": "webpack"
+  },
+  "name": "swmap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.jsx",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-loader": "^7.1.2",
+    "react": "^16.2.0",
+    "rest": "^2.0.0",
+    "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pepefold/swmap.git"
+  },
+  "author": "zzp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pepefold/swmap/issues"
+  },
+  "homepage": "https://github.com/pepefold/swmap#readme"
+}

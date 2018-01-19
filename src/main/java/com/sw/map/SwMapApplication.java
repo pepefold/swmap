@@ -21,7 +21,7 @@ import com.sw.map.service.ServiceRepository;
 
 //@EnableResourceServer
 @SpringBootApplication
-@ComponentScan(basePackages="com.sw.map.contractor,com.sw.map.service, com.sw.map.location, com.sw.map.security")
+@ComponentScan(basePackages="com.sw.map.contractor,com.sw.map.service, com.sw.map.location, com.sw.map.security, com.sw.web")
 public class SwMapApplication {
 
 	public static void main(String[] args) {
